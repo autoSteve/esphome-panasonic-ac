@@ -58,7 +58,7 @@ HORIZONTAL_SWING_OPTIONS = [
 
 VERTICAL_SWING_OPTIONS = ["swing", "auto", "up", "up_center", "center", "down_center", "down"]
 
-SWITCH_SCHEMA = switch.switch_schema.extend(cv.COMPONENT_SCHEMA).extend(
+SWITCH_SCHEMA = switch.SWITCH_SCHEMA.extend(cv.COMPONENT_SCHEMA).extend(
     {cv.GenerateID(): cv.declare_id(PanasonicACSwitch)}
 )
 SELECT_SCHEMA = select.select_schema.extend(
