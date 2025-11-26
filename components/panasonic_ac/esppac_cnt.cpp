@@ -526,7 +526,7 @@ namespace esphome
           this->data = std::vector<uint8_t>(this->rx_buffer_.begin() + 2, this->rx_buffer_.begin() + 12);
 
           this->set_data(true);
-          if (this->mode != this->mode_state_ || this->current_temperature != this->current_temperature_state_ || this->target_temperature != this->target_temperature_state_ || this->swing_mode != this->swing_mode_state_ || this->custom_fan_mode != this->fan_mode_state_ || this->custom_preset != this->preset_state_)
+          if (this->mode != this->mode_state_ || this->current_temperature != this->current_temperature_state_ || this->target_temperature != this->target_temperature_state_ || this->swing_mode != this->swing_mode_state_ || this->get_custom_fan_mode() != this->fan_mode_state_ || this->get_custom_preset() != this->preset_state_)
           {
             this->publish_state();
           }
@@ -534,9 +534,9 @@ namespace esphome
           this->mode_state_ = this->mode;
           this->current_temperature_state_ = this->current_temperature;
           this->target_temperature_state_ = this->target_temperature;
-          this->fan_mode_state_ = this->custom_fan_mode;
+          this->fan_mode_state_ = this->get_custom_fan_mode();
           this->swing_mode_state_ = this->swing_mode;
-          this->preset_state_ = this->custom_preset;
+          this->preset_state_ = this->get_custom_preset();
 
           if (this->state_ != ACState::Ready)
             this->state_ = ACState::Ready; // Mark as ready after first poll
