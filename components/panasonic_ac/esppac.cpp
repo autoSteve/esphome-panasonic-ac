@@ -48,6 +48,15 @@ namespace esphome
 
       ESP_LOGI(TAG, "Panasonic AC component v%s starting...", VERSION);
 
+      this->fan_mode_state_ = new char[32];
+      this->preset_state_ = new char[32];
+      strcpy(this->fan_mode_state_, "");
+      strcpy(this->preset_state_, "");
+      this->mode_state_ = 255;
+      this->current_temperature_state_ = 255;
+      this->target_temperature_state_ = 255;
+      this->swing_mode_state_ = 255;
+
       this->today_consumption = saved_today->value();
     }
 
