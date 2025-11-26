@@ -1,8 +1,11 @@
 from esphome.const import (
+    DEVICE_CLASS_ENERGY,
     DEVICE_CLASS_TEMPERATURE,
     DEVICE_CLASS_POWER,
     STATE_CLASS_MEASUREMENT,
+    STATE_CLASS_TOTAL_INCREASING,
     UNIT_CELSIUS,
+    UNIT_KILOWATT_HOURS,
     UNIT_WATT,
 )
 import esphome.codegen as cg
@@ -38,6 +41,7 @@ CONF_ECO_SWITCH = "eco_switch"
 CONF_ECONAVI_SWITCH = "econavi_switch"
 CONF_MILD_DRY_SWITCH = "mild_dry_switch"
 CONF_CURRENT_POWER_CONSUMPTION = "current_power_consumption"
+CONF_TODAY_POWER_CONSUMPTION = "today_power_consumption"
 CONF_WLAN = "wlan"
 CONF_CNT = "cnt"
 
@@ -71,6 +75,12 @@ PANASONIC_CNT_SCHEMA = {
         accuracy_decimals=0,
         device_class=DEVICE_CLASS_POWER,
         state_class=STATE_CLASS_MEASUREMENT,
+    ),
+    cv.Optional(CONF_TODAY_POWER_CONSUMPTION): sensor.sensor_schema(
+        unit_of_measurement=UNIT_KILOWATT_HOURS,
+        accuracy_decimals=3,
+        device_class=DEVICE_CLASS_ENERGY,
+        state_class=STATE_CLASS_TOTAL_INCREASING,
     ),
 }
 
@@ -117,3 +127,7 @@ async def to_code(config):
     if CONF_CURRENT_POWER_CONSUMPTION in config:
         sens = await sensor.new_sensor(config[CONF_CURRENT_POWER_CONSUMPTION])
         cg.add(var.set_current_power_consumption_sensor(sens))
+
+    if CONF_TODAY_POWER_CONSUMPTION in config:
+        sens = await sensor.new_sensor(config[CONF_TODAY_POWER_CONSUMPTION])
+        cg.add(var.set_today_power_consumption_sensor(sens))
