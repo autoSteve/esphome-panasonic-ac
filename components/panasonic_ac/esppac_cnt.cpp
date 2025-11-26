@@ -534,9 +534,9 @@ namespace esphome
           this->mode_state_ = this->mode;
           this->current_temperature_state_ = this->current_temperature;
           this->target_temperature_state_ = this->target_temperature;
-          this->fan_mode_state_ = this->get_custom_fan_mode();
+          strcpy(this->fan_mode_state_, this->get_custom_fan_mode());
           this->swing_mode_state_ = this->swing_mode;
-          this->preset_state_ = this->get_custom_preset();
+          strcpy(this->preset_state_, this->get_custom_preset());
 
           if (this->state_ != ACState::Ready)
             this->state_ = ACState::Ready; // Mark as ready after first poll
