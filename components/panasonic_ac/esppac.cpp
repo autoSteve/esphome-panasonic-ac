@@ -2,7 +2,6 @@
 
 #include "esphome/core/log.h"
 
-#include "esphome/components/climate/climate.h"
 #include "esphome/components/globals/globals_component.h"
 #include "time.h"
 
