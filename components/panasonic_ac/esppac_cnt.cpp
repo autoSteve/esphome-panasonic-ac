@@ -526,7 +526,7 @@ namespace esphome
           this->data = std::vector<uint8_t>(this->rx_buffer_.begin() + 2, this->rx_buffer_.begin() + 12);
 
           this->set_data(true);
-          if (this->mode != this->mode_state_ || this->current_temperature != this->current_temperature_state_ || this->target_temperature != this->target_temperature_state_ || this->swing_mode != this->swing_mode_state_ || this->get_custom_fan_mode() != this->fan_mode_state_ || this->get_custom_preset() != this->preset_state_)
+          if (this->mode != this->mode_state_ || this->current_temperature != this->current_temperature_state_ || this->target_temperature != this->target_temperature_state_ || this->swing_mode != this->swing_mode_state_ || strcmp(this->get_custom_fan_mode(), this->fan_mode_state_) != 0 || strcmp(this->get_custom_preset(), this->preset_state_) != 0)
           {
             this->publish_state();
           }
