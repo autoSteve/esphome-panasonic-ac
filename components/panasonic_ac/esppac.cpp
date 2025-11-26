@@ -19,15 +19,12 @@ namespace esphome
     {
       auto traits = climate::ClimateTraits();
 
-      // traits.set_supports_action(false);
       traits.clear_feature_flags(esphome::climate::CLIMATE_SUPPORTS_ACTION);
-
-      // traits.set_supports_current_temperature(true);
       traits.add_feature_flags(esphome::climate::CLIMATE_SUPPORTS_CURRENT_TEMPERATURE);
-      // traits.set_supports_two_point_target_temperature(false);
-      traits.add_feature_flags(esphome::climate::CLIMATE_SUPPORTS_TWO_POINT_TARGET_TEMPERATURE);
-      traits.set_visual_min_temperature(MIN_TEMPERATURE);
-      traits.set_visual_max_temperature(MAX_TEMPERATURE);
+      traits.clear_feature_flags(esphome::climate::CLIMATE_SUPPORTS_TWO_POINT_TARGET_TEMPERATURE);
+      traits.add_feature_flags(esphome::climate::CLIMATE_SUPPORTS_MIN_TEMPERATURE);
+      traits.add_feature_flags(esphome::climate::CLIMATE_SUPPORTS_MAX_TEMPERATURE);
+
       traits.set_visual_temperature_step(TEMPERATURE_STEP);
 
       traits.set_supported_modes({climate::CLIMATE_MODE_OFF, climate::CLIMATE_MODE_HEAT_COOL, climate::CLIMATE_MODE_COOL,
