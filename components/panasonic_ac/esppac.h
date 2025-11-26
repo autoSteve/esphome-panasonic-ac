@@ -98,9 +98,11 @@ namespace esphome
       uint8_t mode_state_ = 255;
       uint8_t current_temperature_state_ = 255;
       uint8_t target_temperature_state_ = 255;
-      char *fan_mode_state_ = nullptr;
+      char *fan_mode_state_ = new char[32];
+      strcpy(fan_mode_state_, "");
       uint8_t swing_mode_state_ = 255;
-      char *preset_state_ = nullptr;
+      char *preset_state_ = new char[32];
+      strcpy(preset_state_, "");
 
       void update_outside_temperature(int8_t temperature);
       void update_current_temperature(int8_t temperature);
