@@ -22,8 +22,6 @@ namespace esphome
       traits.clear_feature_flags(esphome::climate::CLIMATE_SUPPORTS_ACTION);
       traits.add_feature_flags(esphome::climate::CLIMATE_SUPPORTS_CURRENT_TEMPERATURE);
       traits.clear_feature_flags(esphome::climate::CLIMATE_SUPPORTS_TWO_POINT_TARGET_TEMPERATURE);
-      traits.add_feature_flags(esphome::climate::CLIMATE_SUPPORTS_VISUAL_MIN_TEMPERATURE);
-      traits.add_feature_flags(esphome::climate::CLIMATE_SUPPORTS_VISUAL_MAX_TEMPERATURE);
 
       traits.set_visual_temperature_step(TEMPERATURE_STEP);
 
