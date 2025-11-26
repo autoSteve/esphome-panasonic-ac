@@ -22,8 +22,8 @@ namespace esphome
       traits.clear_feature_flags(esphome::climate::CLIMATE_SUPPORTS_ACTION);
       traits.add_feature_flags(esphome::climate::CLIMATE_SUPPORTS_CURRENT_TEMPERATURE);
       traits.clear_feature_flags(esphome::climate::CLIMATE_SUPPORTS_TWO_POINT_TARGET_TEMPERATURE);
-      traits.add_feature_flags(esphome::climate::CLIMATE_SUPPORTS_MIN_TEMPERATURE);
-      traits.add_feature_flags(esphome::climate::CLIMATE_SUPPORTS_MAX_TEMPERATURE);
+      traits.add_feature_flags(esphome::climate::CLIMATE_SUPPORTS_VISUAL_MIN_TEMPERATURE);
+      traits.add_feature_flags(esphome::climate::CLIMATE_SUPPORTS_VISUAL_MAX_TEMPERATURE);
 
       traits.set_visual_temperature_step(TEMPERATURE_STEP);
 
@@ -136,7 +136,7 @@ namespace esphome
       this->horizontal_swing_state_ = swing;
 
       if (this->horizontal_swing_select_ != nullptr &&
-          this->horizontal_swing_select_->state != this->horizontal_swing_state_)
+          this->horizontal_swing_select_->current_option() != this->horizontal_swing_state_)
       {
         this->horizontal_swing_select_->publish_state(
             this->horizontal_swing_state_); // Set current horizontal swing position
@@ -147,7 +147,7 @@ namespace esphome
     {
       this->vertical_swing_state_ = swing;
 
-      if (this->vertical_swing_select_ != nullptr && this->vertical_swing_select_->state != this->vertical_swing_state_)
+      if (this->vertical_swing_select_ != nullptr && this->vertical_swing_select_->current_option() != this->vertical_swing_state_)
         this->vertical_swing_select_->publish_state(this->vertical_swing_state_); // Set current vertical swing position
     }
 
