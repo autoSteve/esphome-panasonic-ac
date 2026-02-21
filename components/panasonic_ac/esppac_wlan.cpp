@@ -41,8 +41,7 @@ namespace esphome
           if (!verify_packet()) // Verify length, header, counter and checksum
             return;
 
-          this->waiting_for_response_ =
-              false;                              // Set that we are not waiting for a response anymore since we received a valid one
+          this->waiting_for_response_ = false;    // Set that we are not waiting for a response anymore since we received a valid one
           this->last_packet_received_ = millis(); // Set the time at which we received our last packet
 
           if (this->state_ == ACState::Ready || this->state_ == ACState::FirstPoll ||
