@@ -6,6 +6,7 @@
 #include "esphome/components/switch/switch.h"
 #include "esphome/components/uart/uart.h"
 #include "esphome/core/component.h"
+#include "esphome/core/preferences.h"
 
 namespace esphome
 {
@@ -90,6 +91,9 @@ namespace esphome
       uint32_t last_packet_received_; // Stores the time at which the last packet was received
 
       double today_consumption = 0; // Cumulative kWh
+      ESPPreferenceObject today_consumption_pref_;
+      uint32_t last_consumption_save_{0};                       // Stores the time at which today_consumption was last saved to flash
+      static const uint32_t CONSUMPTION_SAVE_INTERVAL = 900000; // Save to flash every 15 minutes (in ms)
 
       climate::ClimateTraits traits() override;
 

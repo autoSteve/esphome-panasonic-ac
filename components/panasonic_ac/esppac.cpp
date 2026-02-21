@@ -2,10 +2,7 @@
 
 #include "esphome/core/log.h"
 
-#include "esphome/components/globals/globals_component.h"
 #include "time.h"
-
-extern esphome::globals::GlobalsComponent<double> *saved_today;
 
 namespace esphome
 {
@@ -55,7 +52,8 @@ namespace esphome
       this->target_temperature_state_ = 255;
       this->swing_mode_state_ = 255;
 
-      this->today_consumption = saved_today->value();
+      this->today_consumption_pref_ = global_preferences->make_preference<double>(this->get_object_id_hash());
+      this->today_consumption_pref_.load(&this->today_consumption);
     }
 
     time_t day_seconds()
@@ -237,9 +235,19 @@ namespace esphome
           if (seconds < last_time_ and last_time_ > 14400)
           { // When seconds past midnight drops it indicates a new day (if occurring after 4am)
             this->today_consumption = 0;
+            this->today_consumption_pref_.save(&this->today_consumption);
+            this->last_consumption_save_ = millis();
             ESP_LOGD(TAG, "Reset today consumption");
           }
           last_time_ = seconds;
+
+          // Periodically save consumption to flash to limit wear
+          uint32_t now = millis();
+          if (now - this->last_consumption_save_ >= CONSUMPTION_SAVE_INTERVAL)
+          {
+            this->today_consumption_pref_.save(&this->today_consumption);
+            this->last_consumption_save_ = now;
+          }
         }
       }
     }
@@ -269,7 +277,7 @@ namespace esphome
       this->vertical_swing_select_ = vertical_swing_select;
       this->vertical_swing_select_->add_on_state_callback([this](size_t index)
                                                           {
-    auto value = this->vertical_swing_select_->state;
+    auto value = this->vertical_swing_select_->current_option();
     if (value == this->vertical_swing_state_)
       return;
     this->on_vertical_swing_change(value); });
@@ -280,7 +288,7 @@ namespace esphome
       this->horizontal_swing_select_ = horizontal_swing_select;
       this->horizontal_swing_select_->add_on_state_callback([this](size_t index)
                                                             {
-    auto value = this->horizontal_swing_select_->state;
+    auto value = this->horizontal_swing_select_->current_option();
     if (value == this->horizontal_swing_state_)
       return;
     this->on_horizontal_swing_change(value); });
