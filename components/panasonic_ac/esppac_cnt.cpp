@@ -277,25 +277,25 @@ namespace esphome
         {
           ESP_LOGV(TAG, "Requested fan mode change");
 
-          if (strcmp(this->get_custom_preset(), "Normal") != 0)
+          if (std::string(this->get_custom_preset()) != "Normal")
           {
             ESP_LOGV(TAG, "Resetting preset");
             this->cmd[5] = (this->cmd[5] & 0xF0); // Clear right nib for normal mode
           }
 
-          const char *fanMode = call.get_custom_fan_mode();
+          std::string fanMode(call.get_custom_fan_mode());
 
-          if (strcmp(fanMode, "Automatic") == 0)
+          if (fanMode == "Automatic")
             this->cmd[3] = 0xA0;
-          else if (strcmp(fanMode, "1") == 0)
+          else if (fanMode == "1")
             this->cmd[3] = 0x30;
-          else if (strcmp(fanMode, "2") == 0)
+          else if (fanMode == "2")
             this->cmd[3] = 0x40;
-          else if (strcmp(fanMode, "3") == 0)
+          else if (fanMode == "3")
             this->cmd[3] = 0x50;
-          else if (strcmp(fanMode, "4") == 0)
+          else if (fanMode == "4")
             this->cmd[3] = 0x60;
-          else if (strcmp(fanMode, "5") == 0)
+          else if (fanMode == "5")
             this->cmd[3] = 0x70;
           else
             ESP_LOGV(TAG, "Unsupported fan mode requested");
@@ -329,13 +329,13 @@ namespace esphome
         {
           ESP_LOGV(TAG, "Requested preset change");
 
-          const char *preset = call.get_custom_preset();
+          std::string preset(call.get_custom_preset());
 
-          if (strcmp(preset, "Normal") == 0)
+          if (preset == "Normal")
             this->cmd[5] = (this->cmd[5] & 0xF0); // Clear right nib for normal mode
-          else if (strcmp(preset, "Powerful") == 0)
+          else if (preset == "Powerful")
             this->cmd[5] = (this->cmd[5] & 0xF0) + 0x02; // Clear right nib and set powerful mode
-          else if (strcmp(preset, "Quiet") == 0)
+          else if (preset == "Quiet")
             this->cmd[5] = (this->cmd[5] & 0xF0) + 0x04; // Clear right nib and set quiet mode
           else
             ESP_LOGV(TAG, "Unsupported preset requested");
@@ -526,7 +526,7 @@ namespace esphome
           this->data = std::vector<uint8_t>(this->rx_buffer_.begin() + 2, this->rx_buffer_.begin() + 12);
 
           this->set_data(true);
-          if (this->mode != this->mode_state_ || this->current_temperature != this->current_temperature_state_ || this->target_temperature != this->target_temperature_state_ || this->swing_mode != this->swing_mode_state_ || strcmp(this->get_custom_fan_mode(), this->fan_mode_state_) != 0 || strcmp(this->get_custom_preset(), this->preset_state_) != 0)
+          if (this->mode != this->mode_state_ || this->current_temperature != this->current_temperature_state_ || this->target_temperature != this->target_temperature_state_ || this->swing_mode != this->swing_mode_state_ || std::string(this->get_custom_fan_mode()) != this->fan_mode_state_ || std::string(this->get_custom_preset()) != this->preset_state_)
           {
             this->publish_state();
           }
@@ -534,9 +534,9 @@ namespace esphome
           this->mode_state_ = this->mode;
           this->current_temperature_state_ = this->current_temperature;
           this->target_temperature_state_ = this->target_temperature;
-          strcpy(this->fan_mode_state_, this->get_custom_fan_mode());
+          strcpy(this->fan_mode_state_, std::string(this->get_custom_fan_mode()).c_str());
           this->swing_mode_state_ = this->swing_mode;
-          strcpy(this->preset_state_, this->get_custom_preset());
+          strcpy(this->preset_state_, std::string(this->get_custom_preset()).c_str());
 
           if (this->state_ != ACState::Ready)
             this->state_ = ACState::Ready; // Mark as ready after first poll
